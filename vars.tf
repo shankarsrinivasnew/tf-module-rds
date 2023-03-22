@@ -28,6 +28,11 @@ variable "storage_encrypted" {
 
 }
 
+variable "skip_final_snapshot" {
+  default = true
+  
+}
+
 variable "instance_count" {
 
 }

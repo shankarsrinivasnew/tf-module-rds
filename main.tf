@@ -10,6 +10,7 @@ resource "aws_rds_cluster" "rdsr" {
   db_subnet_group_name    = aws_db_subnet_group.subgrpr.name
   kms_key_id              = data.aws_kms_key.mykey.arn
   storage_encrypted       = var.storage_encrypted
+  skip_final_snapshot    = var.skip_final_snapshot
 
   tags = merge(
     var.tags,
