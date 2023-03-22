@@ -7,7 +7,7 @@ resource "aws_rds_cluster" "rdsr" {
   backup_retention_period = var.backup_retention_period
   preferred_backup_window = var.preferred_backup_window
   database_name           = var.dbname
-  db_subnet_group_name    = aws_rds_subnet_group.subgrpr.name
+  db_subnet_group_name    = aws_db_subnet_group.subgrpr.name
   kms_key_id              = data.aws_kms_key.mykey.arn
   storage_encrypted       = var.storage_encrypted
 
@@ -18,7 +18,7 @@ resource "aws_rds_cluster" "rdsr" {
 
 }
 
-resource "aws_rds_subnet_group" "subgrpr" {
+resource "aws_db_subnet_group" "subgrpr" {
   name       = "${var.env}-rds-subnetgroup"
   subnet_ids = var.subnet_ids
 
