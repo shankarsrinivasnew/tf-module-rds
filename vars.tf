@@ -29,11 +29,11 @@ variable "storage_encrypted" {
 }
 
 variable "instance_count" {
-  
+
 }
 
 variable "instance_class" {
-  
+
 }
 
 variable "dbname" {
