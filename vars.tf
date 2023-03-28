@@ -44,3 +44,10 @@ variable "instance_class" {
 variable "dbname" {
   default = "dummy"
 }
+
+variable "allow_db_to_subnets" {
+  
+}
+variable "vpc_id" {
+  
+}
