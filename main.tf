@@ -10,7 +10,9 @@ resource "aws_rds_cluster" "rdsr" {
   db_subnet_group_name    = aws_db_subnet_group.subgrpr.name
   kms_key_id              = data.aws_kms_key.mykey.arn
   storage_encrypted       = var.storage_encrypted
-  skip_final_snapshot    = var.skip_final_snapshot
+  skip_final_snapshot     = var.skip_final_snapshot
+  vpc_security_group_ids  = [aws_security_group.sgr.id]
+
 
   tags = merge(
     var.tags,
@@ -36,4 +38,37 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
   instance_class     = var.instance_class
   engine             = aws_rds_cluster.rdsr.engine
   engine_version     = aws_rds_cluster.rdsr.engine_version
+}
+
+resource "aws_ssm_parameter" "rds_endpoint_shipping" {
+  name  = "${var.env}.rds_endpoint_shipping"
+  type  = "String"
+  value = aws_rds_cluster.rdsr.endpoint
+}
+
+resource "aws_security_group" "sgr" {
+  name        = "rds-${var.env}-sg"
+  description = "rds-${var.env}-sg"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "rds port"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = var.allow_db_to_subnets
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = merge(
+    var.tags,
+    { Name = "rds-${var.env}" }
+  )
 }
