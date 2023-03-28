@@ -2,8 +2,8 @@ resource "aws_rds_cluster" "rdsr" {
   cluster_identifier      = "${var.env}-rds"
   engine                  = var.engine
   engine_version          = var.engine_version
-  master_username         = data.aws_ssm_parameter.rds-user.value
-  master_password         = data.aws_ssm_parameter.rds-pass.value
+  master_username         = data.aws_ssm_parameter.rds_user.value
+  master_password         = data.aws_ssm_parameter.rds_pass.value
   backup_retention_period = var.backup_retention_period
   preferred_backup_window = var.preferred_backup_window
   database_name           = var.dbname
